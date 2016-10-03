@@ -6,21 +6,19 @@
 #include <iostream>
 #include <string>
 
+//global variables for communication between callback function and main
 double amp_cmd;
 double freq_cmd;
 
 bool callback(kmb172_p2::SinCommandMsgRequest& request,kmb172_p2::SinCommandMsgResponse& response)
 {
+
+    //read in desired values from data structure, set global variables accordingly
     ROS_INFO("callback activated");
     double reqd_amp_cmd(request.ampCommand);//store requested amplitude command
     double reqd_freq_cmd(request.freqCommand);//store requested frequency command
-
-    ROS_INFO("location 1");
-
     amp_cmd = reqd_amp_cmd;
     freq_cmd = reqd_freq_cmd;
-
-    ROS_INFO("location 2");
     
     response.success=true;//actual commands about to be issued
 
@@ -30,13 +28,15 @@ bool callback(kmb172_p2::SinCommandMsgRequest& request,kmb172_p2::SinCommandMsgR
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "sin_commander_service");
+    ros::init(argc, argv, "sin_commander_service");//make the node
     ros::NodeHandle n;
 
-    ros::ServiceServer service = n.advertiseService("sin_commander", callback);
+    ros::ServiceServer service = n.advertiseService("sin_commander", callback);//add a service component
     ROS_INFO("Ready to command a sine wave.");
 
-    ros::Publisher my_publisher_object = n.advertise<std_msgs::Float64>("vel_cmd", 1);
+    ros::Publisher my_publisher_object = n.advertise<std_msgs::Float64>("vel_cmd", 1);//add a publisher component
+
+    //almost everything below this line was from P1
 
     double pubRate = 1000.0;//the rate at which vel_cmd will be published to
     std_msgs::Float64 vel_desired;// the data that I will modify and publish with
