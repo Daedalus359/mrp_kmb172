@@ -22,10 +22,11 @@ int main(int argc, char **argv) {
     cin >> des_freq;
 
     srv.request.ampCommand = des_amp;//fill the relevent message fields with desired values
-    srv.request.ampCommand = des_freq;
+    srv.request.freqCommand = des_freq;
 
     if (client.call(srv)) {//call the service and check if the service ran correctly
-        cout << "command received";
+        cout << "command processed successfully";
+        cout<<endl;
     }
 
     return 0;
