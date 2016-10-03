@@ -1,4 +1,4 @@
-double ampCommand
-double freqCommand
+float64 ampCommand
+float64 freqCommand
 ---
 bool success

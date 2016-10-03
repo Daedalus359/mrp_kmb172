@@ -6,10 +6,10 @@
 #include <iostream>
 #include <string>
 
-double amp_cmd
-double freq_cmd
+double amp_cmd;
+double freq_cmd;
 
-bool callback(example_ros_service::ExampleServiceMsgRequest& request, example_ros_service::ExampleServiceMsgResponse& response)
+bool callback(kmb172_p2::SinCommandMsgRequest& request,kmb172_p2::SinCommandMsgResponse& response)
 {
     ROS_INFO("callback activated");
     double reqd_amp_cmd(request.ampCommand);//store requested amplitude command
@@ -20,12 +20,6 @@ bool callback(example_ros_service::ExampleServiceMsgRequest& request, example_ro
     
     response.success=true;//actual commands about to be issued
 
-    ros::init(argc, argv, "sin_commanding_node");
-    ros::NodeHandle p;
-
-    ros::Publisher my_publisher_object = p.advertise<std_msgs::Float64>("vel_cmd", 1);
-    //"vel_cmd" is the name of the topic to which we will publish
-    
     return true;
 }
 
@@ -43,10 +37,10 @@ int main(int argc, char **argv)
 }
 
 int commanding_section(double amp_cmd, double freq_cmd) {//takes arguments from service parts now
-    ros::init(argc, argv, "sin_commander"); // name of this node will be "sin_commander"
-    ros::NodeHandle n; // two lines to create a publisher object that can talk to ROS
-    ros::Publisher my_publisher_object = n.advertise<std_msgs::Float64>("vel_cmd", 1);
-    //"vel_cmd" is the name of the topic to which we will publish
+    //ros::init(argc, argv, "sin_commander"); // name of this node will be "sin_commander"
+    //ros::NodeHandle n; // two lines to create a publisher object that can talk to ROS
+    //ros::Publisher my_publisher_object = n.advertise<std_msgs::Float64>("vel_cmd", 1);
+    ////"vel_cmd" is the name of the topic to which we will publish
     
     std_msgs::Float64 vel_desired;// the data that we will modify and publish with
 
@@ -76,7 +70,7 @@ int commanding_section(double amp_cmd, double freq_cmd) {//takes arguments from 
     {
 	time = fmod((time + (1/pubRate)), (1/frequency));//determines location in current wavelength
         vel_desired.data = amplitude * sin(2*pi*frequency*time);//calculates desired velocity
-        my_publisher_object.publish(vel_desired); // publish the value--of type Float64-- 
+        //my_publisher_object.publish(vel_desired); // publish the value--of type Float64-- 
         //to the topic "topic1"
 	//the next line will cause the loop to sleep for the balance of the desired period 
         // to achieve the specified loop frequency 
