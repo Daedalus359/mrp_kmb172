@@ -34,6 +34,10 @@ catkin_simple()
 # Executables: uncomment the following and edit arguments to compile new nodes
 # may add more of these lines for more nodes from the same package
 # cs_add_executable(example src/example.cpp)
+cs_add_executable(command_client3 src/command_client3.cpp)
+cs_add_executable(kmb172_minimal_controller3 src/kmb172_minimal_controller3.cpp)
+cs_add_executable(kmb172_minimal_simulator3 src/kmb172_minimal_simulator3.cpp)
+cs_add_executable(sin_commander_p3 src/sin_commander_p3.cpp)
 
 #the following is required, if desire to link a node in this package with a library created in this same package
 # edit the arguments to reference the named node and named library within this package

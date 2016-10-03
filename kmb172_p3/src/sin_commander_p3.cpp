@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <math.h>       /* sin */
 #include <kmb172_p3/WavCycles.h> /*message type I defined for this assignment*/
+//Note: need to add this to the generation thing or whatever
 #include <iostream>
 #include <string>
 #include <actionlib/server/simple_action_server.h>
@@ -105,6 +106,7 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
         }else{
 	    time = fmod((time + (1/pubRate)), (1/desiredFrequency));//determines location in wave
 	    cyclesCompleted = cyclesCompleted + 1;
+	    feedback_.numCyclesCompleted = cyclesCompleted;
 	}
         vel_desired.data = desiredAmplitude * sin(2*pi*desiredFrequency*time);//calculates desired velocity
         my_publisher_object.publish(vel_desired); // publish the value--of type Float64-- 
@@ -124,8 +126,7 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
     // send the result message back with the status of "success"
 
     g_count++; // keep track of total number of goals serviced since this server was started
-    result_.output = g_count; // we'll use the member variable result_, defined in our class
-    result_.goal_stamp = goal->input;
+    result_.success = true; //the actionServer has successfully completed its goal
     
     // the class owns the action server, so we can use its member methods here
    
