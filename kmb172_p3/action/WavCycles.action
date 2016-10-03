@@ -1,0 +1,11 @@
+#goal
+float64 amplitude
+float64 frequency
+int32 numCycles
+---
+#result
+bool success
+---
+#feedback
+int32 numCyclesCompleted
+

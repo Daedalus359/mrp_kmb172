@@ -3,8 +3,6 @@ project(kmb172_p3)
 
 find_package(catkin_simple REQUIRED)
 
-find_package(Boost REQUIRED COMPONENTS system thread)
-
 #uncomment next line to use OpenCV library
 #find_package(OpenCV REQUIRED)
 
