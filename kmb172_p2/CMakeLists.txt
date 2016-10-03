@@ -35,6 +35,7 @@ catkin_simple()
 cs_add_executable(kmb172_minimal_controller src/kmb172_minimal_controller.cpp)
 cs_add_executable(kmb172_minimal_simulator src/kmb172_minimal_simulator.cpp)
 cs_add_executable(sin_commander src/sin_commander.cpp)
+cs_add_executable(command_client src/command_client.cpp)
 
 
 #the following is required, if desire to link a node in this package with a library created in this same package
