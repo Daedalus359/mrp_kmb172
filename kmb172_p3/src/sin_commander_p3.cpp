@@ -14,8 +14,6 @@ private:
     ros::NodeHandle nh_;  // we'll need a node handle; get one upon instantiation
 
     // this class will own a "SimpleActionServer" called "as_".
-    // it will communicate using messages defined in example_action_server/action/demo.action
-    // the type "demoAction" is auto-generated from our name "demo" and generic name "Action"
     actionlib::SimpleActionServer<kmb172_p3::WavCyclesAction> as_;
     
     // here are some message types to communicate with our client(s)
@@ -109,7 +107,7 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
     ROS_INFO("Frequency desired: %f", desiredFrequency);
 
 
-    while(ros::ok && cyclesCompleted < (desiredNumCycles)) {
+    while(ros::ok && cyclesCompleted < (desiredNumCycles)) {//complete the requested action
         ROS_INFO("New While Loop Iteration");
         if ((time + (1/pubRate)) > (1/desiredFrequency)){
 	    time = fmod((time + (1/pubRate)), (1/desiredFrequency));//determines location in wave
