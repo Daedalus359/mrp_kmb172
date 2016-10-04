@@ -61,6 +61,8 @@ int main(int argc, char **argv) {
     goal.frequency = des_freq;
     goal.numCycles = des_num_cycles;
 
+	std::cout << "amp: " << goal.amplitude << ", freq: " << goal.frequency << ", cyc: " << goal.numCycles << std::endl;
+
     //send the goal to the server
     action_client.sendGoal(goal,&doneCb);
 

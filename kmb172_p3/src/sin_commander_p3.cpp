@@ -71,7 +71,7 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
     
     //....
     
-
+    goal_ = *goal;
     //KEVIN's NOTES
     //Need to know how to access request data fields
     //Need to implement a count of cycles completed 
