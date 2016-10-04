@@ -45,4 +45,3 @@ cs_add_executable(sin_commander_p3 src/sin_commander_p3.cpp)
 
 cs_install()
 cs_export()
-    

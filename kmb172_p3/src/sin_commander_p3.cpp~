@@ -2,7 +2,7 @@
 #include <std_msgs/Float64.h>
 #include <stdio.h>
 #include <math.h>       /* sin */
-#include <kmb172_p3/WavCycles.h> /*message type I defined for this assignment*/
+#include <kmb172_p3/WavCyclesAction.h> /*message type I defined for this assignment*/
 //Note: need to add this to the generation thing or whatever
 #include <iostream>
 #include <string>
@@ -87,7 +87,7 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
     int desiredNumCycles = goal_.numCycles;
 
     ros::Publisher my_publisher_object = nh_.advertise<std_msgs::Float64>("vel_cmd", 1);//add a publisher component
-    ROS_INFO("Publisher Ready")
+    ROS_INFO("Publisher Ready");
     
     //some code from P1
     double pubRate = 1000.0;//the rate at which vel_cmd will be published to
@@ -111,8 +111,8 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
         vel_desired.data = desiredAmplitude * sin(2*pi*desiredFrequency*time);//calculates desired velocity
         my_publisher_object.publish(vel_desired); // publish the value--of type Float64-- 
         //to the topic "topic1"
-	ROS_INFO("amp_cmd = %f", amp_cmd);
-        ROS_INFO("freq_cmd = %f", freq_cmd);
+	ROS_INFO("amp_cmd = %f", desiredAmplitude);
+        ROS_INFO("freq_cmd = %f", desiredFrequency);
 	ROS_INFO("time = %f", time);
         //ros::spinOnce(); //no longer needed from P2?
         naptime.sleep();
@@ -125,7 +125,7 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
     // unless some communication got dropped, indicating an error
     // send the result message back with the status of "success"
 
-    g_count++; // keep track of total number of goals serviced since this server was started
+    //g_count++; // keep track of total number of goals serviced since this server was started
     result_.success = true; //the actionServer has successfully completed its goal
     
     // the class owns the action server, so we can use its member methods here
@@ -133,16 +133,16 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
     // DEBUG: if client and server remain in sync, all is well--else whine and complain and quit
     // NOTE: this is NOT generically useful code; server should be happy to accept new clients at any time, and
     // no client should need to know how many goals the server has serviced to date
-    if (g_count != goal->input) {
-        ROS_WARN("hey--mismatch!");
-        ROS_INFO("g_count = %d; goal_stamp = %d", g_count, result_.goal_stamp);
-        g_count_failure = true; //set a flag to commit suicide
-        ROS_WARN("informing client of aborted goal");
-        as_.setAborted(result_); // tell the client we have given up on this goal; send the result message as well
-    }
-    else {
-         as_.setSucceeded(result_); // tell the client that we were successful acting on the request, and return the "result" message
-    }
+   // if (g_count != goal->input) {
+        //ROS_WARN("hey--mismatch!");
+        //ROS_INFO("g_count = %d; goal_stamp = %d", g_count, result_.goal_stamp);
+        //g_count_failure = true; //set a flag to commit suicide
+        //ROS_WARN("informing client of aborted goal");
+        //as_.setAborted(result_); // tell the client we have given up on this goal; send the result message as well
+    //}
+    //else {
+        // as_.setSucceeded(result_); // tell the client that we were successful acting on the request, and return the "result" message
+    //}
 }
 
 int main(int argc, char** argv) {
