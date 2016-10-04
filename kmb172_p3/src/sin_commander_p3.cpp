@@ -82,12 +82,15 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
     //feedback_ : int32 numCyclesCompleted
 
     //grab the waveform parameters from the request (goal)
+    ROS_INFO("Cycles desired goal_ feature: %d", goal_.numCycles);
+    ROS_INFO("Amplitude desired goal_ feature: %f", goal_.amplitude);
+    ROS_INFO("Frequency desired goal_ feature: %f", goal_.frequency);
     double desiredAmplitude = goal_.amplitude;
     double desiredFrequency = goal_.frequency;
     int desiredNumCycles = goal_.numCycles;
 
     ros::Publisher my_publisher_object = nh_.advertise<std_msgs::Float64>("vel_cmd", 1);//add a publisher component
-    ROS_INFO("Publisher Ready");
+    ROS_INFO("Parameters set in callback");
     
     //some code from P1
     double pubRate = 1000.0;//the rate at which vel_cmd will be published to
@@ -100,7 +103,14 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
 
     int cyclesCompleted = 0;//the number of periods of the sine wave that have passed
 
+    ROS_INFO("Cycles completed: %d", cyclesCompleted);
+    ROS_INFO("Cycles desired: %d", desiredNumCycles);
+    ROS_INFO("Amplitude desired: %f", desiredAmplitude);
+    ROS_INFO("Frequency desired: %f", desiredFrequency);
+
+
     while(ros::ok && cyclesCompleted < (desiredNumCycles)) {
+        ROS_INFO("New While Loop Iteration");
         if ((time + (1/pubRate)) > (1/desiredFrequency)){
 	    time = fmod((time + (1/pubRate)), (1/desiredFrequency));//determines location in wave
         }else{
@@ -118,6 +128,11 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
         naptime.sleep();
     }
 
+    //return a success to the client
+    result_.success = true;
+    as_.setSucceeded(result_);
+    ROS_INFO("assigned result_.success true");
+
     // for illustration, populate the "result" message with two numbers:
     // the "input" is the message count, copied from goal->input (as sent by the client)
     // the "goal_stamp" is the server's count of how many goals it has serviced so far
@@ -126,7 +141,6 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
     // send the result message back with the status of "success"
 
     //g_count++; // keep track of total number of goals serviced since this server was started
-    result_.success = true; //the actionServer has successfully completed its goal
     
     // the class owns the action server, so we can use its member methods here
    
