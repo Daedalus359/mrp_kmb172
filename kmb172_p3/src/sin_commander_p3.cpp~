@@ -128,6 +128,9 @@ void SinCommanderActionServer::executeCB(const actionlib::SimpleActionServer<kmb
         naptime.sleep();
     }
 
+    vel_desired.data = 0;//publish a final velocity command of 0, as requested in the spec.
+    my_publisher_object.publish(vel_desired);
+
     //return a success to the client
     result_.success = true;
     as_.setSucceeded(result_);
