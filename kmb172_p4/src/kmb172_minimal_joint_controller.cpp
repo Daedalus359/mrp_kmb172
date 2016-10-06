@@ -18,13 +18,23 @@ double sat(double val, double sat_val) {
     
 }
 
-double g_pos_cmd=0.0; //position command input-- global var
-void posCmdCB(const std_msgs::Float64& pos_cmd_msg) 
+double g_pos_cmd_1=0.0; //position command input-- global var
+double g_pos_cmd_2=0.0; //Same as above but for joint 2
+
+
+void posCmd_1_CB(const std_msgs::Float64& pos_cmd_1_msg) 
 { 
-  ROS_INFO("received value of pos_cmd is: %f",pos_cmd_msg.data); 
-  g_pos_cmd = pos_cmd_msg.data;
+  ROS_INFO("received value of pos_cmd_1 is: %f",pos_cmd_1_msg.data); 
+  g_pos_cmd_1 = pos_cmd_1_msg.data;
 } 
 
+void posCmd_2_CB(const std_msgs::Float64& pos_cmd_2_msg) //a callback for the second joint
+{ 
+  ROS_INFO("received value of pos_cmd_2 is: %f",pos_cmd_2_msg.data); 
+  g_pos_cmd_2 = pos_cmd_2_msg.data;
+}
+
+//good on duplicating things up to here
 
 
 int main(int argc, char **argv) {
@@ -63,7 +73,7 @@ int main(int argc, char **argv) {
     ros::Publisher pos_publisher = nh.advertise<std_msgs::Float64>("jnt_pos", 1);  
     ros::Publisher joint_state_publisher = nh.advertise<sensor_msgs::JointState>("joint_states", 1); 
 
-    ros::Subscriber pos_cmd_subscriber = nh.subscribe("pos_cmd",1,posCmdCB); 
+    ros::Subscriber pos_cmd_1_subscriber = nh.subscribe("pos_cmd_1",1,posCmdCB); 
      
     std_msgs::Float64 trq_msg;
     std_msgs::Float64 q1_msg,q1dot_msg;

@@ -34,7 +34,7 @@ catkin_simple()
 # cs_add_executable(example src/example.cpp)
 cs_add_executable(kmb172_gazebo_set_state src/kmb172_gazebo_set_state.cpp)
 cs_add_executable(kmb172_minimal_joint_controller src/kmb172_minimal_joint_controller.cpp)
-cs_add_executable(kmb172_sine_commander src/kmb172_sine_commander.cpp)
+cs_add_executable(kmb172_sin_commander_p4 src/kmb172_sin_commander_p4.cpp)
 
 #the following is required, if desire to link a node in this package with a library created in this same package
 # edit the arguments to reference the named node and named library within this package
