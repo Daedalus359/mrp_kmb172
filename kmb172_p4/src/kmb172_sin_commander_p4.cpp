@@ -6,7 +6,7 @@
 int main(int argc, char **argv) {
     ros::init(argc, argv, "sin_commander"); // name of this node will be "sin_commander"
     ros::NodeHandle n; // two lines to create a publisher object that can talk to ROS
-    ros::Publisher my_publisher_object = n.advertise<std_msgs::Float64>("pos_cmd", 1);
+    ros::Publisher my_publisher_object = n.advertise<std_msgs::Float64>("pos_cmd_1", 1);
     ros::Publisher my_publisher_object_2 = n.advertise<std_msgs::Float64>("pos_cmd_2", 1);
     //"vel_cmd" is the name of the topic to which we will publish
     
@@ -53,8 +53,7 @@ int main(int argc, char **argv) {
     {
 	time_1 = fmod((time_1 + (1/pubRate)), (1/frequency_1));//determines location in current 
         pos_desired_1.data = amplitude_1 * sin(2*pi*frequency_1*time_1);//calculates desired position
-        my_publisher_object.publish(pos_desired_1); // publish the value--of type Float64-- 
-        //to the topic "topic1"
+        my_publisher_object.publish(pos_desired_1); // publish the value--of type Float64-
 
 	ROS_INFO("pos_desired_1 updated");
 
