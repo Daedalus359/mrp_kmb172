@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
     ros::Publisher pos_publisher = nh.advertise<std_msgs::Float64>("jnt_pos", 1);  
     ros::Publisher joint_state_publisher = nh.advertise<sensor_msgs::JointState>("joint_states", 1); 
 
-    ros::Subscriber pos_cmd_1_subscriber = nh.subscribe("pos_cmd_1",1,posCmdCB); 
+    ros::Subscriber pos_cmd_1_subscriber = nh.subscribe("pos_cmd_1",1,posCmd_1_CB); 
      
     std_msgs::Float64 trq_msg;
     std_msgs::Float64 q1_msg,q1dot_msg;
@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
         
         //ROS_INFO("q1 = %f;  q1dot = %f",q1,q1dot);
         //watch for periodicity
-        q1_err= g_pos_cmd-q1;
+        q1_err= g_pos_cmd_1-q1;
         if (q1_err>M_PI) {
             q1_err -= 2*M_PI;
         }

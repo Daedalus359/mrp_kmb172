@@ -2,65 +2,71 @@
 #include <std_msgs/Float64.h>
 #include <stdio.h>
 #include <math.h>       /* sin */
-#include <kmb172_p2/SinCommandMsg.h> /*message type I defined for this assignment*/
-#include <iostream>
-#include <string>
 
-//global variables for communication between callback function and main
-double amp_cmd;
-double freq_cmd;
-
-bool callback(kmb172_p2::SinCommandMsgRequest& request,kmb172_p2::SinCommandMsgResponse& response)
-{
-
-    //read in desired values from data structure, set global variables accordingly
-    ROS_INFO("callback activated");
-    double reqd_amp_cmd(request.ampCommand);//store requested amplitude command
-    double reqd_freq_cmd(request.freqCommand);//store requested frequency command
-    amp_cmd = reqd_amp_cmd;
-    freq_cmd = reqd_freq_cmd;
+int main(int argc, char **argv) {
+    ros::init(argc, argv, "sin_commander"); // name of this node will be "sin_commander"
+    ros::NodeHandle n; // two lines to create a publisher object that can talk to ROS
+    ros::Publisher my_publisher_object = n.advertise<std_msgs::Float64>("pos_cmd", 1);
+    ros::Publisher my_publisher_object_2 = n.advertise<std_msgs::Float64>("pos_cmd_2", 1);
+    //"vel_cmd" is the name of the topic to which we will publish
     
-    response.success=true;//actual commands about to be issued
+    // the data that we will modify and publish with
+    std_msgs::Float64 pos_desired_1;
+    std_msgs::Float64 pos_desired_2;
 
-    ROS_INFO("callback returning true");
-    return true;
-}
+    double frequency_1 = 0.0;//create the variable that represents desired frequency
+    double amplitude_1 = 0.0;//create the variable that represents desired amplitude
+    double frequency_2 = 0.0;//create the variable that represents desired frequency
+    double amplitude_2 = 0.0;//create the variable that represents desired amplitude
 
-int main(int argc, char **argv)
-{
-    ros::init(argc, argv, "sin_commander_service");//make the node
-    ros::NodeHandle n;
+    //ask for and store desired frequency
+    std::cout << "Input desired frequency for joint 1: ";
+    std::cin >> frequency_1;
 
-    ros::ServiceServer service = n.advertiseService("sin_commander", callback);//add a service component
-    ROS_INFO("Ready to command a sine wave.");
+    //ask for and store desired frequency
+    std::cout << "Input desired frequency for joint 2: ";
+    std::cin >> frequency_2;
 
-    ros::Publisher my_publisher_object = n.advertise<std_msgs::Float64>("vel_cmd", 1);//add a publisher component
+    //ask for and store desired amplitude
+    std::cout << "Input desired amplitude for joint 1: ";
+    std::cin >> amplitude_1;
 
-    //almost everything below this line was from P1
+    //ask for and store desired amplitude
+    std::cout << "Input desired amplitude for joint 2: ";
+    std::cin >> amplitude_2;
 
     double pubRate = 1000.0;//the rate at which vel_cmd will be published to
-    std_msgs::Float64 vel_desired;// the data that I will modify and publish with
-
-    double sin_arg = 0.0;//will be the input to the sin function
-    double time = 0.0;
-    double pi = 3.14159;
-
+   
     ros::Rate naptime(pubRate);//create a ros object from the ros “Rate” class; 
     //set the sleep timer for 5Hz repetition rate (arg is in units of Hz)
 
-    while(ros::ok) {
-        time = fmod((time + (1/pubRate)), (1/freq_cmd));//determines location in current wavelength
-        vel_desired.data = amp_cmd * sin(2*pi*freq_cmd*time);//calculates desired velocity
-        my_publisher_object.publish(vel_desired); // publish the value--of type Float64-- 
+    double sin_arg_1 = 0.0;//will be the input to the sin function for joint 1
+    double time_1 = 0.0;
+
+    double sin_arg_2 = 0.0;//will be the input to the sin function for joint 2
+    double time_2 = 0.0;
+
+    double pi = 3.14159;
+    
+    // do work here in infinite loop (desired for this example), but terminate if detect ROS has faulted
+    while (ros::ok()) 
+    {
+	time_1 = fmod((time_1 + (1/pubRate)), (1/frequency_1));//determines location in current 
+        pos_desired_1.data = amplitude_1 * sin(2*pi*frequency_1*time_1);//calculates desired position
+        my_publisher_object.publish(pos_desired_1); // publish the value--of type Float64-- 
         //to the topic "topic1"
-	ROS_INFO("amp_cmd = %f", amp_cmd);
-        ROS_INFO("freq_cmd = %f", freq_cmd);
-	ROS_INFO("time = %f", time);
-        ros::spinOnce();
-        naptime.sleep();
+
+	ROS_INFO("pos_desired_1 updated");
+
+	time_2 = fmod((time_2 + (1/pubRate)), (1/frequency_2));//determines location in current 
+        pos_desired_2.data = amplitude_2 * sin(2*pi*frequency_2*time_2);//calculates desired position
+        my_publisher_object_2.publish(pos_desired_2); // publish the value--of type Float64-- 
+        //to the topic "topic1"
+
+
+	//the next line will cause the loop to sleep for the balance of the desired period 
+        // to achieve the specified loop frequency
+
+	naptime.sleep();
     }
-
-    ros::spin();
-
-    return 0;
 }

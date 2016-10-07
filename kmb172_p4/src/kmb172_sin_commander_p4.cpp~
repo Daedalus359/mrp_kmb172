@@ -56,9 +56,11 @@ int main(int argc, char **argv) {
         my_publisher_object.publish(pos_desired_1); // publish the value--of type Float64-- 
         //to the topic "topic1"
 
+	ROS_INFO("pos_desired_1 updated");
+
 	time_2 = fmod((time_2 + (1/pubRate)), (1/frequency_2));//determines location in current 
         pos_desired_2.data = amplitude_2 * sin(2*pi*frequency_2*time_2);//calculates desired position
-        my_publisher_object.publish(pos_desired_2); // publish the value--of type Float64-- 
+        my_publisher_object_2.publish(pos_desired_2); // publish the value--of type Float64-- 
         //to the topic "topic1"
 
 
