@@ -15,11 +15,18 @@
 using namespace std;
 
 int main(int argc, char **argv) {
+    ROS_INFO("AAAH0");
     ros::init(argc, argv, "ur10_reachability");
+    ROS_INFO("AAAH1");
     Eigen::Vector3d p;
+    ROS_INFO("AAAH2");
     Eigen::Vector3d n_des,t_des,b_des;
+    ROS_INFO("AAAH3");
     Vectorq6x1 q_in;
-    q_in<<0,0,0,0,0,0;
+    ROS_INFO("AAAH4");
+    q_in<<0,0,0,0,0;//This one is problematic
+
+    ROS_INFO("AAAH5");
 
     UR10FwdSolver ur10_fwd_solver;
     UR10IkSolver ur10_ik_solver;
@@ -32,6 +39,8 @@ int main(int argc, char **argv) {
     R_des.col(0) = n_des;
     R_des.col(1) = t_des;
     R_des.col(2) = b_des;
+
+    ROS_INFO("AAAH6");
     
 
     std::vector<Vectorq7x1> q_solns;
@@ -52,6 +61,8 @@ int main(int argc, char **argv) {
     Eigen::Vector3d p_des;
     int nsolns;
     std::vector<Eigen::Vector3d> reachable, approachable;
+
+    ROS_INFO("AAAH7");
         
         for (double x_des = x_min;x_des<x_max;x_des+=dx) {
             for (double y_des = y_min; y_des<y_max; y_des+=dy) {

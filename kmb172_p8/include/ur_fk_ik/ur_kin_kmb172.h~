@@ -34,8 +34,8 @@
 #include <string>
 #include <math.h>
 
-typedef Eigen::Matrix<double, 6, 1> Vectorq6x1;
-typedef Eigen::Matrix<double, 7, 1> Vectorq7x1;
+typedef Eigen::VectorXd Vectorq6x1;
+typedef Eigen::VectorXd Vectorq7x1;
 
 const int NJNTS=6;
 using namespace std;
