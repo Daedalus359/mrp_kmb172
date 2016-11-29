@@ -220,7 +220,7 @@ UR10IkSolver::UR10IkSolver() {
 }
 
 //solve IK; return solns, in UR coordinates, in q_ik_solns
-int UR10IkSolver::ik_solve(Eigen::Affine3d const& desired_hand_pose,  std::vector<Vectorq6x1> q_solns, &q_ik_solns) {
+int UR10IkSolver::ik_solve(Eigen::Affine3d const& desired_hand_pose,std::vector<Vectorq6x1> &q_ik_solns) {//just added last comma
     Eigen::VectorXd q_ik_soln;
     q_ik_soln.resize(NJNTS);
     q_ik_solns.clear();
