@@ -139,7 +139,6 @@ public:
     // return the number of valid solutions; actual vector of solutions will require an accessor function
     //int ik_solve(Eigen::Affine3d const& desired_hand_pose); // given vector of q angles, compute fwd kin
     int ik_solve(Eigen::Affine3d const& desired_hand_pose,std::vector<Vectorq6x1> &q_ik_solns);
-    //void get_solns(std::vector<Eigen::VectorXd> &q_solns);
 
     //Eigen::MatrixXd get_Jacobian(const Vectorq6x1& q_vec);
 private:    
