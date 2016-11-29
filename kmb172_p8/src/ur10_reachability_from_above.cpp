@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
     ROS_INFO("AAAH3");
     Vectorq6x1 q_in;
     ROS_INFO("AAAH4");
-    q_in<<0,0,0,0,0;//This one is problematic
+    q_in<<0,0,0,0,0,0,0;//This one is problematic
 
     ROS_INFO("AAAH5");
 
