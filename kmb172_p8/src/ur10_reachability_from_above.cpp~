@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     ROS_INFO("AAAH6");
     
 
-    std::vector<Vectorq7x1> q_solns;
+    std::vector<Vectorq6x1> q_solns;
     Vectorq6x1 qsoln;
 
     Eigen::Affine3d a_tool_des; // expressed in DH frame  
