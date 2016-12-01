@@ -1,6 +1,6 @@
 // UR10 kinematics implementation file; start w/ fwd kin
 
-#include <ur_fk_ik/ur_kin_kmb172.h>
+#include <ur_fk_ik_kmb172/ur_kin_kmb172.h>
 
 // function for use w/ both fwd and inv kin
 // NOTE: q must be q in DH coords!!  use q_vec(i) + DH_q_offsets(i)
@@ -165,6 +165,39 @@ UR10FwdSolver::UR10FwdSolver() { //(const hand_s& hs, const atlas_frame& base_fr
     A_tool_wrt_flange_.translation() = O_hand;
 }
 
+/*  IN CASE WANT JACOBIAN LATER...finish this
+Eigen::MatrixXd irb120_hand_fwd_solver::get_Jacobian(const Vectorq6x1& q_vec) {
+    solve(q_vec);
+    Eigen::MatrixXd J = Eigen::MatrixXd::Zero(6, 6);
+    Eigen::MatrixXd J_ang = Eigen::MatrixXd::Zero(3, 6);
+    Eigen::MatrixXd J_trans = Eigen::MatrixXd::Zero(3, 6);
+    Eigen::MatrixXd zvecs = Eigen::MatrixXd::Zero(3, 6);
+    Eigen::MatrixXd rvecs = Eigen::MatrixXd::Zero(3, 6);
+    Eigen::Matrix4d Apalm = A_mat_products[7];
+    Eigen::MatrixXd O_palm = Apalm.block<3, 1>(0, 3);
+    Eigen::Matrix4d Ai;
+    Eigen::MatrixXd zvec, rvec;
+    Eigen::Vector3d t1, t2;
+    for (int i = 0; i < 6; i++) {
+        Ai = A_mat_products[i];
+        zvec = Ai.block<3, 1>(0, 2); //%strip off z axis of each movable frame
+        zvecs.block<3, 1>(0, i) = zvec; //%and store them
+        rvec = O_palm - Ai.block<3, 1>(0, 3); //%vector from origin of i'th frame to palm 
+        rvecs.block<3, 1>(0, i) = rvec;
+        J_ang.block<3, 1>(0, i) = zvecs.block<3, 1>(0, i);
+
+        t1 = zvecs.block<3, 1>(0, i);
+        t2 = rvecs.block<3, 1>(0, i);
+        J_trans.block<3, 1>(0, i) = t1.cross(t2);
+    }
+
+    J.block<3, 6>(0, 0) = J_trans;
+    J.block<3, 6>(3, 0) = J_ang;
+    if (is_lhand(hs_))return mirror_J_to_lhand(J);
+    return J;
+}
+
+ */
 
 //provide qvec in UR coords; converts to DH coords before FK computation
 Eigen::Affine3d UR10FwdSolver::fwd_kin_solve(const Eigen::VectorXd& q_vec_UR) {
@@ -220,7 +253,7 @@ UR10IkSolver::UR10IkSolver() {
 }
 
 //solve IK; return solns, in UR coordinates, in q_ik_solns
-int UR10IkSolver::ik_solve(Eigen::Affine3d const& desired_hand_pose,std::vector<Vectorq6x1> &q_ik_solns) {//just added last comma
+int UR10IkSolver::ik_solve(Eigen::Affine3d const& desired_hand_pose,  vector<Eigen::VectorXd> &q_ik_solns) {
     Eigen::VectorXd q_ik_soln;
     q_ik_soln.resize(NJNTS);
     q_ik_solns.clear();
@@ -670,3 +703,7 @@ bool UR10IkSolver::solve_2R_planar_arm_shoulder_ang(double x_des,double y_des, d
     //ROS_WARN("Error: 2R shoulder angle has no soln!");
     return false;
 }
+
+ 
+
+
