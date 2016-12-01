@@ -31,7 +31,6 @@ catkin_simple()
 
 # Executables: uncomment the following and edit arguments to compile new nodes
 # may add more of these lines for more nodes from the same package
-cs_add_executable(ur_kin_kmb172 src/ur_kin_kmb172.cpp)
 cs_add_executable(ur_10_reachability_from_above_kmb172 src/ur_10_reachability_from_above_kmb172.cpp)
 
 #the following is required, if desire to link a node in this package with a library created in this same package
