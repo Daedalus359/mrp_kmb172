@@ -1,6 +1,6 @@
 // UR10 kinematics implementation file; start w/ fwd kin
 
-#include <ur_fk_ik_kmb172/ur_kin_kmb172.h>
+#include <ur_fk_ik/ur_kin.h>
 
 // function for use w/ both fwd and inv kin
 // NOTE: q must be q in DH coords!!  use q_vec(i) + DH_q_offsets(i)
