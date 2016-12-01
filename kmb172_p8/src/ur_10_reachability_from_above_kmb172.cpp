@@ -11,7 +11,7 @@
 // search for reachability for flange over x_range = [0.4,1] , y_range= [-1,1] at z_range =[0,0.1]
 
 
-#include <ur_fk_ik_kmb172/ur_kin_kmb172.h>//corresponding ur10 file
+#include <ur_fk_ik/ur_kin.h>//corresponding ur10 file
 #include <fstream>
 using namespace std;
 
