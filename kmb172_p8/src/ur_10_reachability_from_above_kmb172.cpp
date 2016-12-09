@@ -19,8 +19,9 @@ int main(int argc, char **argv) {
     ros::init(argc, argv, "ru10_reachability");
     Eigen::Vector3d p;
     Eigen::Vector3d n_des,t_des,b_des;
-    Vectorq6x1 q_in;
-    q_in<<0,0,0,0,0,0;
+
+    //Vectorq6x1 q_in;
+    //q_in<<0,0,0,0,0,0;
 
     //Replaced Baxter specific versions of these lines
     UR10FwdSolver UR10FwdSolver;
@@ -79,7 +80,7 @@ int main(int argc, char **argv) {
                 }
 
                 //!!** CHANGE THIS TO TEST REACHABILITY AT HEIGHT OF INTEREST
-                p_des[2] = bin_top; // test grasp pose; //z_high; //test approach pose
+                p_des[2] = agv_top; // test grasp pose; //z_high; //test approach pose
 
                 a_tool_des.translation() = p_des;
 

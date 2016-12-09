@@ -1,0 +1,2 @@
+roscd
+rosrun object_grabber block_grabber_action_client

@@ -1,0 +1,7 @@
+clear
+load conveyor_top_reachable_x_y;
+low = conveyor_top_reachable_x_y;
+load conveyor_top_approachable_x_y;
+high = conveyor_top_approachable_x_y;
+figure(1)
+plot(conveyor_top_reachable_x_y(:,1),conveyor_top_reachable_x_y(:,2),'*',conveyor_top_approachable_x_y(:,1),conveyor_top_approachable_x_y(:,2),'kx')
